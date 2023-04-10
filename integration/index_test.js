@@ -37,19 +37,6 @@ describe('Account linking tests', () => {
     expect(await page.url()).equal(app`/user`);
   });
 
-  it('skips linking', async () => {
-    await createUsers();
-
-    await page.evaluate(() => document.querySelector('#skip').click());
-
-    await page.waitForNavigation();
-    await page.click('#allow');
-
-    await page.waitForNavigation();
-    expect(await usersWithSameEmailCount(testEmail)).equal(2);
-    expect(await page.url()).equal(app`/user`);
-  });
-
   it('shows an error when invalid token is provided', async () => {
     const path = buildQueryString({
       childToken: '',

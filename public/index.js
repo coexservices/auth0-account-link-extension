@@ -12,7 +12,7 @@ module.exports = function(currentUser, matchingUsers, params, token) {
 
   function loadLinkPage(token) {
     var linkEl = document.getElementById('link');
-    var skipEl = document.getElementById('skip');
+
     var connections = matchingUsers
       .reduce(function(acc, user) {
         return acc.concat(user.identities);
@@ -34,10 +34,6 @@ module.exports = function(currentUser, matchingUsers, params, token) {
       window.location = domain + 'authorize?' + query;
     };
 
-    var updateContinueUrl = function(linkEl, domain, state) {
-      linkEl.href = domain + 'continue?state=' + state;
-    };
-
     linkEl.addEventListener('click', function(e) {
       authorize(token.iss, {
         client_id: params.client_id,
@@ -53,8 +49,6 @@ module.exports = function(currentUser, matchingUsers, params, token) {
         connection: connections[0]
       });
     });
-
-    updateContinueUrl(skipEl, token.iss, params.state);
 
     if (params.error_type === 'accountMismatch') {
       loadAccountMismatchError();
